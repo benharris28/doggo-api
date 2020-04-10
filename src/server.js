@@ -1,12 +1,19 @@
-const express = require('express');
- const app = express();
+const knex = require('knex')
 
- const PORT = process.env.PORT || 3000;
 
- app.get('/api/*', (req, res) => {
-   res.json({ok: true});
- });
+const app = require('./app')
 
- app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+const { PORT, DB_URL } = require('./config')
 
- module.exports = {app};
+const db = knex({
+  client: 'pg',
+  connection: DB_URL
+})
+
+ 
+
+ app.set('db', db)
+
+app.listen(PORT, () => {
+  console.log(`Server listening at http://localhost:${PORT}`)
+})

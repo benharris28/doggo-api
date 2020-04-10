@@ -1,0 +1,4 @@
+TRUNCATE
+  walks,
+  users
+  RESTART IDENTITY CASCADE;
