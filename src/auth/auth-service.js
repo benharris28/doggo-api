@@ -4,10 +4,13 @@ const config = require('../config')
 
 const AuthService = {
     getUserWithEmail(db, email) {
-        return db(users)
+        return db('users')
             .where({ email })
-            .first
-    }
+            .first()
+    },
+    comparePasswords(password, hash) {
+        return bcrypt.compare(password, hash)
+      },
 }
 
 module.exports = AuthService
