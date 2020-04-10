@@ -1,15 +1,22 @@
+const path = require('path')
 const express = require('express')
 const UserService = require('./user-service')
 
 const userRouter = express.Router()
 const jsonBodyParser = express.json()
 
-userRouter
-.route('/user')
 
 
+//userRouter
+//.route('/')
+
 userRouter
-.route('/user/:user_id')
+.post('/', jsonBodyParser, (req, res, next) => {
+    
+})
+
+userRouter
+.route('/:user_id')
 .all((req, res, next) => {
     UserService.getById(
         req.app.get('db'),
@@ -28,7 +35,7 @@ userRouter
 })
 .get((req, res, next) => {
     UserService.getById(
-        res.json(UserService.serializeUser(res.user))
+        res.json(res.user)
     )  
 })
 
