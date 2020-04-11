@@ -27,20 +27,26 @@ authRouter
                         error: 'Incorrect email or password',
                     })
 
-                return AuthService.comparePasswords(loginUser.password, dbUser.password)
-                    .then(compareMatch => {
-                        console.log(dbUser.email)
-                        if (!compareMatch)
-                            return res.status(400).json({
-                                error: 'Incorrect email or password'
-                            })
 
-                            const user = dbUser.user_id
-                            console.log(user)
-                            res.send.json({ 
-                                user
-                            })
+                    res.send({
+                        dbUser
                     })
+
+                //return AuthService.comparePasswords(loginUser.password, dbUser.password)
+                    //.then(compareMatch => {
+                        //console.log(dbUser.password)
+                        //console.log(loginUser.password)
+                        //if (!compareMatch)
+                            //return res.status(400).json({
+                                //error: 'Incorrect email or password'
+                            //})
+
+                            //const user = dbUser.email
+                            //console.log(user)
+                            //res.send({ 
+                                //user: user
+                            //})
+                    //})
             })
             .catch(next)
     })
