@@ -25,10 +25,10 @@ const WalkService = {
                 WalkService.getWalkById(db, walk.walk_id)
             })
     },
-    updateWalk(db, walk_id, newWalkStatus) {
+    updateWalk(db, walk_id, walkToUpdate) {
         return db('walks')
             .where({ walk_id })
-            .update(newWalkStatus)
+            .update(walkToUpdate)
 
     },
     getAllWalks(db) {

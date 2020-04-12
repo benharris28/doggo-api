@@ -90,6 +90,20 @@ walkRouter
    
     res.json(res.walk)
   })
+.patch(jsonBodyParser, (req, res, next) => {
+    const { walk_status } = req.body 
+    const walkToUpdate = { walk_status }
+
+    WalkService.updateWalk(
+        req.app.get('db'),
+        req.params.walk_id,
+        walkToUpdate
+    )
+    .then(numRowsAffected => {
+        res.status(204).end()
+    })
+    .catch(next)
+})
 
 
   walkRouter
