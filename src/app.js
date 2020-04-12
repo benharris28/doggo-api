@@ -7,6 +7,7 @@ const { NODE_ENV } = require('./config')
 const userRouter = require('./user/user-router');
 const authRouter = require('./auth/auth-router')
 const walkRouter = require('./walk/walk-router')
+const walkerRouter = require('./walker/walker-router')
 
 const app = express()
 
@@ -20,6 +21,7 @@ app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/walk', walkRouter)
+app.use('/api/walker', walkerRouter)
 
 
 app.use(function errorHandler(error, req, res, next ) {

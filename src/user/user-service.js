@@ -46,10 +46,13 @@ const UserService = {
                }
                return null
           
-      },
-      hashPassword(password) {
+    },
+    hashPassword(password) {
         return bcrypt.hash(password, 12)
     },
+    
+    
+
     serializeUser(user) {
         return {
             
