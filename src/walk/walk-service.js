@@ -38,6 +38,12 @@ const WalkService = {
             .update(walkToUpdate)
 
     },
+    updateWalkFeedback(db, walk_id, walkToUpdate) {
+        return db('walks')
+            .where({ walk_id })
+            .update(walkToUpdate)
+
+    },
     getAllWalks(db) {
         return db
             .from('walks')

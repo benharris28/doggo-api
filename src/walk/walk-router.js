@@ -92,8 +92,8 @@ walkRouter
     res.json(res.walk)
   })
 .patch(jsonBodyParser, (req, res, next) => {
-    const { walk_status } = req.body 
-    const walkToUpdate = { walk_status }
+    const { walk_status, rating, comment } = req.body 
+    const walkToUpdate = { walk_status, rating, comment }
 
     WalkService.updateWalk(
         req.app.get('db'),
