@@ -69,15 +69,16 @@ walkRouter
         })
     
     
-    WalkService.insertWalk(
+    WalkService.createWalk(
         req.app.get('db'),
         newWalk
     )
     .then(walk => {
         res
             .status(201)
-            //.location(path.posix.join(req.originalUrl,`/${walk.walk_id}`))
+            .location(path.posix.join(req.originalUrl,`/${walk.walk_id}`))
             .json(WalkService.serializeWalk(walk))
+            console.log(walk)
 
     })
     .catch(next)

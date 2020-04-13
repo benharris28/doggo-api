@@ -15,15 +15,15 @@ const WalkService = {
             .where('user_id', user_id)
 
     },
-    insertWalk(db, newWalk) {
+    createWalk(db, newWalk) {
         return db
             .insert(newWalk)
             .into('walks')
             .returning('*')
-            .then(([walk]) => walk)
-            .then(walk => {
-                WalkService.getWalkById(db, walk.walk_id)
+            .then(rows => {
+                return rows[0]
             })
+            
     },
     updateWalk(db, walk_id, walkToUpdate) {
         return db('walks')
@@ -39,7 +39,7 @@ const WalkService = {
 },
     serializeWalk(walk) {
     return {
-        
+        walk_id: walk.walk_id,
         walker_id: walk.walker_id,
         user_id: walk.user_id,
         user_firstname: walk.user_firstname,
