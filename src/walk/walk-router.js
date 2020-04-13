@@ -108,9 +108,23 @@ walkRouter
 
 
   walkRouter
-  .route('/all/:user_id')
+  .route('/all/user/:user_id')
   .get((req, res, next) => {
       WalkService.getAllWalksForUserId(
+          req.app.get('db'),
+          req.params.user_id
+      )
+      .then(walks => {
+          res.json(walks)
+      })
+     .catch(next)
+
+    })
+
+walkRouter
+  .route('/all/walker/:user_id')
+  .get((req, res, next) => {
+      WalkService.getAllWalksForWalkerId(
           req.app.get('db'),
           req.params.user_id
       )

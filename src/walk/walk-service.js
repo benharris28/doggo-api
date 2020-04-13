@@ -15,6 +15,13 @@ const WalkService = {
             .where('user_id', user_id)
 
     },
+    getAllWalksForWalkerId(db, user_id) {
+        return db
+            .from('walks')
+            .select('*')
+            .where('walker_id', user_id)
+
+    },
     createWalk(db, newWalk) {
         return db
             .insert(newWalk)
