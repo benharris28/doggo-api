@@ -1,0 +1,2 @@
+ALTER TABLE walks
+    ALTER COLUMN walk_date TYPE DATE;
