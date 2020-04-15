@@ -7,12 +7,58 @@ const jsonBodyParser = express.json()
 
 
 
-//userRouter
-//.route('/')
-
 userRouter
 .post('/', jsonBodyParser, (req, res, next) => {
+    const { email, password, first_name, last_name, user_type, dog_name } = req.body
+
+    for (const field of ['first_name', 'last_name', 'email', 'password', 'user_type'])
+        if (!req.body[field])
+            return res.status(400).json({
+                error: `Missing '${field}' in request body`
+            })
     
+    const passwordError = UserService.validatePassword(password)
+
+    if (passwordError)
+        return res.status(400).json({ error: passwordError })
+
+    UserService.hasUserWithEmail(
+        req.app.get('db'),
+        email
+    )
+    .then(hasUserWithEmail => {
+        if(hasUserWithEmail)
+            return res.status(400).json({ error: `Username already taken`})
+
+            res.send('ok')
+    })
+
+    return UserService.hashPassword(password)
+        .then(hashedPassword => {
+            const newUser = {
+                user_type,
+                first_name,
+                last_name,
+                email,
+                password: hashedPassword,
+                dog_name,
+                date_created: 'now()'
+            }
+        
+    
+    return UserService.insertUser(
+        req.app.get('db'),
+        newUser
+    )
+    .then(user => {
+        res
+            .status(201)
+            .location(path.posix.join(req.originalUrl, `/${user.user_id}`))
+            .json(UserService.serializeUser(user))
+    })
+})
+.catch(next)
+
 })
 
 userRouter
