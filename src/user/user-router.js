@@ -27,11 +27,11 @@ userRouter
         email
     )
     .then(hasUserWithEmail => {
-        if(hasUserWithEmail) {
+        if(hasUserWithEmail) 
             return res.status(400).json({ error: `Username already taken`})
-        }
-            res.send('ok')
-    })
+        
+            
+    
 
     return UserService.hashPassword(password)
         .then(hashedPassword => {
@@ -54,11 +54,12 @@ userRouter
         console.log(user)
         res
             .status(201)
-            //.location(path.posix.join(req.originalUrl, `/${user.user_id}`))
+            .location(path.posix.join(req.originalUrl, `/${user.user_id}`))
             .json(UserService.serializeUser(user))
+        }) 
     })
 })
-.catch(next)
+    .catch(next) 
 
 })
 
