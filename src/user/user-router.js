@@ -27,9 +27,9 @@ userRouter
         email
     )
     .then(hasUserWithEmail => {
-        if(hasUserWithEmail)
+        if(hasUserWithEmail) {
             return res.status(400).json({ error: `Username already taken`})
-
+        }
             res.send('ok')
     })
 
