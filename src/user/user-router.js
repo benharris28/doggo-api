@@ -86,6 +86,20 @@ userRouter
         res.json(res.user)
     )  
 })
+.patch(jsonBodyParser, (req, res, next) => {
+    const { bio } = req.body 
+    const updatedBio = { bio }
+
+    UserService.patchBio(
+        req.app.get('db'),
+        req.params.user_id,
+        updatedBio
+    )
+    .then(numRowsAffected => {
+        res.status(204).end()
+    })
+    .catch(next)
+})
 
 
 module.exports = userRouter;

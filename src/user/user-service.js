@@ -31,6 +31,12 @@ const UserService = {
             // whats going on with all the brackets here?
             .then(([user]) => user)
     },
+    patchBio(db, user_id, updatedBio) {
+        return db('users')
+            .where({ user_id })
+            .update(updatedBio)
+
+    },
     validatePassword(password) {
         if (password.length < 8) {
           return 'Password must be longer than 8 characters'
