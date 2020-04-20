@@ -58,7 +58,6 @@ const WalkService = {
         user_firstname: walk.user_firstname,
         dog_name: walk.dog_name,
         walker_firstname: walk.walker_firstname,
-        request_time: walk.request_time,
         walk_date: walk.walk_date,
         pickup_address_street_number: walk.pickup_address_street_number,
         pickup_address_street_name: xss(walk.pickup_address_street_name),
