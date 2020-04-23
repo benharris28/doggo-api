@@ -15,7 +15,7 @@ function makeUsersArray() {
             postal_short: null,
             profile_photo: null,
             bio: "test bio",
-            date_created: "2020-04-10 22:00:00"
+            date_created: '2020-01-22T16:28:32.615Z'
         },
         {
             user_id: 2,
@@ -29,7 +29,7 @@ function makeUsersArray() {
             postal_short: null,
             profile_photo: null,
             bio: "test bio 2",
-            date_created: "2020-04-10 22:00:00"
+            date_created: '2020-01-22T16:28:32.615Z'
         },
         {
             user_id: 3,
@@ -43,7 +43,7 @@ function makeUsersArray() {
             postal_short: null,
             profile_photo: null,
             bio: "test walker bio 1",
-            date_created: "2020-04-10 22:00:00"
+            date_created: '2020-02-22T16:28:32.615Z'
         },
         {
             user_id: 4,
@@ -57,7 +57,7 @@ function makeUsersArray() {
             postal_short: null,
             profile_photo: null,
             bio: "test walker bio 2",
-            date_created: "2020-04-11 22:00:00"
+            date_created: '2020-02-22T16:28:32.615Z'
         },
     ]
 }
@@ -72,7 +72,7 @@ function makeWalksArray(users) {
             dog_name: "dog1",
             walker_firstname: "Walker 1",
             request_time: null,
-            walk_date: "2020-04-28 10:00:00",
+            walk_date: '2020-06-22T16:28:32.615Z',
             pickup_address_street_number: 3,
             pickup_address_street_name: "Test Street",
             pickup_address_city: "Toronto",
@@ -91,7 +91,7 @@ function makeWalksArray(users) {
             dog_name: "dog2",
             walker_firstname: "Walker 1",
             request_time: null,
-            walk_date: "2020-04-30 10:00:00",
+            walk_date: '2020-03-22T16:28:32.615Z',
             pickup_address_street_number: 8,
             pickup_address_street_name: "Test Street",
             pickup_address_city: "Toronto",
@@ -110,7 +110,7 @@ function makeWalksArray(users) {
             dog_name: "dog2",
             walker_firstname: "Walker 1",
             request_time: null,
-            walk_date: "2020-05-30 10:00:00",
+            walk_date: '2020-02-24T16:28:32.615Z',
             pickup_address_street_number: 12,
             pickup_address_street_name: "Test Street",
             pickup_address_city: "Toronto",
@@ -124,6 +124,60 @@ function makeWalksArray(users) {
     ]
 }
 
+function makeExpectedWalk(users, walk) {
+   
+  
+    return {
+        walk_id: walk.walk_id,
+        walker_id: walk.walker_id,
+        user_id: walk.user_id,
+        user_firstname: walk.user_firstname,
+        dog_name: walk.dog_name,
+        walker_firstname: walk.walker_firstname,
+        walk_date: walk.walk_date,
+        pickup_address_street_number: walk.pickup_address_street_number,
+        pickup_address_street_name: walk.pickup_address_street_name,
+        pickup_address_city: walk.pickup_address_city,
+        pickup_address_province: walk.pickup_address_province,
+        pickup_address_postal_code: walk.pickup_address_postal_code,
+        walk_status: walk.walk_status
+    }
+  }
+
+  function makeMaliciousWalk() {
+    const maliciousWalk = {
+      walk_id: 911,
+      walker_id: 2,
+      user_id: 1,
+      user_firstname: 'Naughty naughty very naughty <script>alert("xss");</script>',
+      dog_name: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
+      walker_firstname: 'Jim',
+      walk_date: new Date().toISOString(),
+      pickup_address_street_number: 3,
+        pickup_address_street_name: "test",
+        pickup_address_city: 'Toronto',
+        pickup_address_province: 'test',
+        pickup_address_postal_code: 'test',
+        walk_status: 'requested'
+    }
+    const expectedWalk = {
+      ...maliciousWalk,
+      user_firsname: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+      dog_name: `Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.`
+    }
+    return {
+      maliciousWalk,
+      expectedWalk,
+    }
+  }
+
+function makeWalkFixtures() {
+    const testUsers = makeUsersArray()
+    const testWalks = makeWalksArray()
+    return { testUsers, testWalks}
+}
+
+/*
 function cleanTables(db) {
     return db.transaction(trx =>
       trx.raw(
@@ -142,15 +196,58 @@ function cleanTables(db) {
       )
     )
   }
+  */
 
-function makeWalkFixtures() {
-    const testUsers = makeUsersArray()
-    const testWalks = makeWalksArray()
-    return { testUsers, testWalks}
-}
+  /*
+  function seedUsers(db, users) {
+    const preppedUsers = users.map(user => ({
+      ...user,
+      password: bcrypt.hashSync(user.password, 1)
+    }))
+    return db.into('users').insert(preppedUsers)
+      .then(() =>
+        // update the auto sequence to stay in sync
+        db.raw(
+          `SELECT setval('users_user_id_seq', ?)`,
+          [users[users.length - 1].id],
+        )
+      )
+  }
+
+  */
+
+  /*
+
+  function seedWalksTables(db, users, walks) {
+     use a transaction to group the queries and auto rollback on any failure
+    return db.transaction(async trx => {
+      await seedUsers(trx, users)
+      await trx.into('walks').insert(walks)
+       update the auto sequence to match the forced id values
+      await trx.raw(
+        `SELECT setval('walks_walk_id_seq', ?)`,
+        [walks[walks.length - 1].walk_id],
+      )
+      
+     
+    })
+  }
+
+  */
+
+
+
+  
+
 module.exports = {
     makeUsersArray,
     makeWalksArray,
+    makeMaliciousWalk,
+   
+   
+    
+    
     makeWalkFixtures,
-    cleanTables
+   
+   
 }

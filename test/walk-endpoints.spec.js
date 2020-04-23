@@ -19,10 +19,10 @@ describe('Walk Endpoints', function() {
       })
     
       after('disconnect from db', () => db.destroy())
+
+      before('clean the table', () => db.raw('TRUNCATE walks, users RESTART IDENTITY CASCADE'))
     
-      before('cleanup', () => db('walks').truncate())
-    
-      afterEach('cleanup', () => helpers.cleanTables(db))
+      afterEach('cleanup',() => db.raw('TRUNCATE walks, users RESTART IDENTITY CASCADE'))
       
       describe(`GET /api/walk`, () => {
         context(`Given no walks`, () => {
@@ -33,16 +33,53 @@ describe('Walk Endpoints', function() {
           })
         })
 
-        context('Given there are walks in the database', () => {
-            beforeEach('insert walks', () =>
-              helpers.seedArticlesTables(
-                db,
-                testUsers,
-                testArticles,
-                testComments,
-              )
-            )
+        
+            context('Given there are articles in the database', () => {
+        
+        
+              beforeEach('insert walks', () => {
+                return db
+                  .into('users')
+                  .insert(testUsers)
+                  .then(() => {
+                    return db
+                      .into('walks')
+                      .insert(testWalks)
+                  })
               })
-      })
+        
+              it('responds with 200 and all of the articles', () => {
+                return supertest(app)
+                  .get('/api/walk')
+                  .expect(200, testWalks)
+              })
+            })
 
+            context(`Given an XSS attack walk`, () => {
+                const testUsers = helpers.makeUsersArray();
+                const { maliciousWalk, expectedWalk } = helpers.makeMaliciousWalk()
+          
+                beforeEach('insert malicious walk', () => {
+                  return db
+                    .into('users')
+                    .insert(testUsers)
+                    .then(() => {
+                      return db
+                        .into('walks')
+                        .insert([ maliciousWalk ])
+                    })
+                })
+          
+                it('removes XSS attack content', () => {
+                  return supertest(app)
+                    .get(`/api/walk`)
+                    .expect(200)
+                    .expect(res => {
+                      expect(res.body[0].user_firstname).to.eql(expectedWalk.user_firstname)
+                      expect(res.body[0].dog_name).to.eql(expectedWalk.dog_name)
+                    })
+                })
+        
+      })
+    })
 })
