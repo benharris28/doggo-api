@@ -71,7 +71,7 @@ function makeWalksArray(users) {
             user_firstname: "User1",
             dog_name: "dog1",
             walker_firstname: "Walker 1",
-            request_time: null,
+            request_time: "10:00:00",
             walk_date: '2020-06-22T16:28:32.615Z',
             pickup_address_street_number: 3,
             pickup_address_street_name: "Test Street",
@@ -79,8 +79,8 @@ function makeWalksArray(users) {
             pickup_address_province: "Ontario",
             pickup_address_postal_code: "M6T4J9",
             walk_status: "requested",
-            rating: null,
-            comment: null
+            rating: 5,
+            comment: "test"
 
         },
         {
@@ -90,7 +90,7 @@ function makeWalksArray(users) {
             user_firstname: "User2",
             dog_name: "dog2",
             walker_firstname: "Walker 1",
-            request_time: null,
+            request_time: "10:00:00",
             walk_date: '2020-03-22T16:28:32.615Z',
             pickup_address_street_number: 8,
             pickup_address_street_name: "Test Street",
@@ -99,7 +99,7 @@ function makeWalksArray(users) {
             pickup_address_postal_code: "M6T4J9",
             walk_status: "complete",
             rating: 5,
-            comment: null
+            comment: "test"
 
         },
         {
@@ -109,7 +109,7 @@ function makeWalksArray(users) {
             user_firstname: "User2",
             dog_name: "dog2",
             walker_firstname: "Walker 1",
-            request_time: null,
+            request_time: "10:00:00",
             walk_date: '2020-02-24T16:28:32.615Z',
             pickup_address_street_number: 12,
             pickup_address_street_name: "Test Street",
@@ -117,8 +117,8 @@ function makeWalksArray(users) {
             pickup_address_province: "Ontario",
             pickup_address_postal_code: "M6T4J9",
             walk_status: "complete",
-            rating: 5,
-            comment: null
+            rating: 4,
+            comment: "test"
 
         }
     ]
@@ -152,13 +152,16 @@ function makeExpectedWalk(users, walk) {
       user_firstname: 'Naughty naughty very naughty <script>alert("xss");</script>',
       dog_name: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
       walker_firstname: 'Jim',
+      request_time: null,
       walk_date: new Date().toISOString(),
       pickup_address_street_number: 3,
-        pickup_address_street_name: "test",
-        pickup_address_city: 'Toronto',
-        pickup_address_province: 'test',
-        pickup_address_postal_code: 'test',
-        walk_status: 'requested'
+      pickup_address_street_name: "test",
+      pickup_address_city: 'Toronto',
+      pickup_address_province: 'test',
+      pickup_address_postal_code: 'test',
+      walk_status: 'requested',
+      rating: null,
+      comment: null,
     }
     const expectedWalk = {
       ...maliciousWalk,

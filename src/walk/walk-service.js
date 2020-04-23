@@ -58,13 +58,16 @@ const WalkService = {
         user_firstname: xss(walk.user_firstname),
         dog_name: xss(walk.dog_name),
         walker_firstname: walk.walker_firstname,
+        request_time: xss(walk.request_time),
         walk_date: walk.walk_date,
         pickup_address_street_number: walk.pickup_address_street_number,
         pickup_address_street_name: xss(walk.pickup_address_street_name),
         pickup_address_city: xss(walk.pickup_address_city),
         pickup_address_province: xss(walk.pickup_address_province),
         pickup_address_postal_code: xss(walk.pickup_address_postal_code),
-        walk_status: xss(walk.walk_status)
+        walk_status: xss(walk.walk_status),
+        rating: walk.rating,
+        comment: xss(walk.comment)
     }
 }
 }

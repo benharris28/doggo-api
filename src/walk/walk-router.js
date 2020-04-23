@@ -24,7 +24,7 @@ walkRouter
 
     )
     .then(walks => {
-        res.json(walks)
+        res.json(walks.map(WalkService.serializeWalk))
     })
     .catch(next)
 })
