@@ -48,7 +48,7 @@ describe('Walk Endpoints', function() {
                   })
               })
         
-              it('responds with 200 and all of the articles', () => {
+              it('responds with 200 and all of the walks', () => {
                 return supertest(app)
                   .get('/api/walk')
                   .expect(200, testWalks)
@@ -82,4 +82,6 @@ describe('Walk Endpoints', function() {
         
       })
     })
+
+    
 })
