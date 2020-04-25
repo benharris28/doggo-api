@@ -9,7 +9,7 @@ function makeUsersArray() {
             first_name: "User1",
             last_name: "User1",
             email: "testuser1@testy.com",
-            password: "test",
+            password: "TestUser1!",
             dog_name: "dog1",
             rating: null,
             postal_short: null,
