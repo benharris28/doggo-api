@@ -124,6 +124,27 @@ function makeWalksArray(users) {
     ]
 }
 
+function makeExpectedUser(userId) {
+  
+   const selectUser = makeUsersArray()
+   const user = selectUser.find(u => u.user_id === userId)
+  
+  return {
+    user_id: user.user_id,
+    user_type: user.user_type,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    password: user.password,
+    email: user.email,
+    dog_name: user.dog_name,
+    rating: user.rating,
+    postal_short: user.postal_short,
+    profile_photo: user.profile_photo,
+    bio: user.bio,
+    date_created: user.date_created
+  }
+}
+
 function makeExpectedWalk(users, walk) {
    
   
@@ -180,26 +201,13 @@ function makeWalkFixtures() {
     return { testUsers, testWalks}
 }
 
-/*
-function cleanTables(db) {
-    return db.transaction(trx =>
-      trx.raw(
-        `TRUNCATE
-          walks,
-          users
-        `
-      )
-      .then(() =>
-        Promise.all([
-          trx.raw(`ALTER SEQUENCE walks_walk_id_seq minvalue 0 START WITH 1`),
-          trx.raw(`ALTER SEQUENCE users_user_id_seq minvalue 0 START WITH 1`),
-          trx.raw(`SELECT setval('walks_walk_id_seq', 0)`),
-          trx.raw(`SELECT setval('users_user_id_seq', 0)`),
-        ])
-      )
-    )
-  }
-  */
+function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
+  const token = jwt.sign({ user_id: user.user_id }, secret, {
+    subject: user.email,
+    algorithm: 'HS256',
+  })
+  return `Bearer ${token}`
+}
 
   /*
   function seedUsers(db, users) {
@@ -246,10 +254,11 @@ module.exports = {
     makeUsersArray,
     makeWalksArray,
     makeMaliciousWalk,
+    makeExpectedUser,
    
    
     
-    
+    makeAuthHeader,
     makeWalkFixtures,
    
    

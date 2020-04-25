@@ -8,7 +8,7 @@ describe('Protected endpoints', function() {
   const {
     testUsers,
     testWalks,
-  } = helpers.makeArticlesFixtures()
+  } = helpers.makeWalkFixtures()
 
   before('make knex instance', () => {
     db = knex({
@@ -24,14 +24,18 @@ describe('Protected endpoints', function() {
 
   afterEach('cleanup',() => db.raw('TRUNCATE walks, users RESTART IDENTITY CASCADE'))
 
-  beforeEach('insert walks', () =>
-    helpers.seedArticlesTables(
-      db,
-      testUsers,
-      testArticles,
-      testComments,
-    )
-  )
+  
+
+  beforeEach('insert walks', () => {
+    return db
+      .into('users')
+      .insert(testUsers)
+      .then(() => {
+        return db
+          .into('walks')
+          .insert(testWalks)
+      })
+  })
 
   const protectedEndpoints = [
     {
@@ -40,20 +44,11 @@ describe('Protected endpoints', function() {
       method: supertest(app).get,
     },
     {
-      name: 'GET /api/walker/:user_id',
-      path: '/api/articles/1/comments',
-      method: supertest(app).get,
-    },
-    {
-        name: 'GET /api/all/user/:user_id',
-        path: '/api/articles/1/comments',
+        name: 'GET /api/user/:user_id',
+        path: '/api/user/1',
         method: supertest(app).get,
       },
-    {
-      name: 'POST /api/user',
-      path: '/api/comments',
-      method: supertest(app).post,
-    },
+    
   ]
 
   protectedEndpoints.forEach(endpoint => {
@@ -72,7 +67,7 @@ describe('Protected endpoints', function() {
       })
 
       it(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {
-        const invalidUser = { user_name: 'user-not-existy', id: 1 }
+        const invalidUser = { email: 'user-not-existy', user_id: 1 }
         return endpoint.method(endpoint.path)
           .set('Authorization', helpers.makeAuthHeader(invalidUser))
           .expect(401, { error: `Unauthorized request` })

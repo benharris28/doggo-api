@@ -1,6 +1,8 @@
 const express = require('express')
 const path = require('path')
 const WalkService = require('./walk-service')
+const { requireAuth } = require('../middleware/jwt-auth')
+
 
 //const { requireAuth } = require('../middleware/jwt-auth')
 
@@ -84,6 +86,7 @@ walkRouter
 
 walkRouter
 .route('/:walk_id')
+.all(requireAuth)
 .all(checkWalkExists)
 .get((req, res) => {
    
@@ -107,6 +110,7 @@ walkRouter
 
   walkRouter
   .route('/all/user/:user_id')
+  .all(requireAuth)
   .get((req, res, next) => {
       WalkService.getAllWalksForUserId(
           req.app.get('db'),
