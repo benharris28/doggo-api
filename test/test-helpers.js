@@ -211,7 +211,7 @@ function seedUsers(db, users) {
     .then(() => 
        //update the auto sequence to stay in sync
       db.raw(
-        `SELECT setval('users_id_seq', ?)`,
+        `SELECT setval('users_user_id_seq', ?)`,
         [users[users.length - 1].user_id],
       )
     )
