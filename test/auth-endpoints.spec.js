@@ -79,13 +79,25 @@ describe('Auth Endpoints', function() {
           algorithm: 'HS256',
         }
       )
+      const testHash = {
+            user_id: 1,
+            user_type: 'user',
+            first_name: 'User1',
+            last_name: 'User1',
+            email: 'testuser1@testy.com',
+            password: '$2a$04$Ax8AHeXYbmsjg3GOu4FcYupHX0e2N31tkA0UptXLxYph8vT4VIBky',
+            dog_name: 'dog1',
+            rating: null,
+            postal_short: null,
+            profile_photo: null,
+            bio: 'test bio',
+            date_created: '2020-01-22T16:28:32.615Z'
+          }
+
       return supertest(app)
         .post('/api/auth/login')
         .send(userValidCreds)
-        .expect(200, {
-            authToken: expectedToken,
-            testUser
-          })
+        .expect(200)
     })
   })
 })

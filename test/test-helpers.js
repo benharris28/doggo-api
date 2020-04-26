@@ -217,6 +217,9 @@ function seedUsers(db, users) {
     )
 }
 
+
+
+
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
   const token = jwt.sign({ user_id: user.user_id }, secret, {
     subject: user.email,
