@@ -89,8 +89,8 @@ userRouter
     )  
 })
 .patch(jsonBodyParser, (req, res, next) => {
-    const { bio } = req.body 
-    const updatedBio = { bio }
+    const { bio, profile_photo } = req.body 
+    const updatedBio = { bio , profile_photo}
 
     UserService.patchBio(
         req.app.get('db'),
