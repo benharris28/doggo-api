@@ -9,7 +9,7 @@ const photoRouter = express.Router()
 
 
 photoRouter
-.route('/sign-s3')
+.route('/upload')
 .get((req, res) => {
   const s3 = new aws.S3();
   const bucket_name = process.env.BUCKET_NAME
