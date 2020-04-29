@@ -8,6 +8,7 @@ const userRouter = require('./user/user-router');
 const authRouter = require('./auth/auth-router')
 const walkRouter = require('./walk/walk-router')
 const walkerRouter = require('./walker/walker-router')
+const photoRouter = require('./photo-upload/photo-router')
 
 const app = express()
 
@@ -19,6 +20,7 @@ app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
 
 
 app.use('/api/user', userRouter)
+app.use('/api/photo', photoRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/walk', walkRouter)
 app.use('/api/walker', walkerRouter)
