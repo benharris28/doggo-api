@@ -11,7 +11,10 @@ const photoRouter = express.Router()
 photoRouter
 .route('/upload')
 .get((req, res) => {
-  const s3 = new aws.S3();
+  const s3 = new aws.S3({
+      region: 'ca-central-1',
+      signatureVersion: 'v4'
+  });
   const bucket_name = process.env.BUCKET_NAME
   const fileName = req.query['file-name'];
   const fileType = req.query['file-type'];
@@ -40,7 +43,10 @@ photoRouter
 photoRouter
 .route('/get-image')
 .get((req, res) => {
-  const s3 = new aws.S3();
+  const s3 = new aws.S3({
+    region: 'ca-central-1',
+    signatureVersion: 'v4'
+});
   const bucket_name = process.env.BUCKET_NAME
   const fileName = req.query['file-name'];
   const fileType = req.query['file-type'];
