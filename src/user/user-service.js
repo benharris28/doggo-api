@@ -20,7 +20,6 @@ const UserService = {
         return db('users')
             .where({ email })
             .first()
-            // how does !!user work here?
             .then(user => !!user)
     },
     insertUser(db, newUser) {
@@ -28,7 +27,6 @@ const UserService = {
             .insert(newUser)
             .into('users')
             .returning('*')
-            // whats going on with all the brackets here?
             .then(([user]) => user)
     },
     patchBio(db, user_id, updatedBio) {

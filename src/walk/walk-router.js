@@ -4,19 +4,12 @@ const WalkService = require('./walk-service')
 const { requireAuth } = require('../middleware/jwt-auth')
 
 
-//const { requireAuth } = require('../middleware/jwt-auth')
+
 
 const walkRouter = express.Router()
 const jsonBodyParser = express.json()
 
-//const serializeWalk = walk => ({
-    //id: note.id,
-    //name: xss(note.name),
-    //modified: note.modified,
-    //folderid: xss(note.folderid),
-    //content: xss(note.content)
 
-//})
 
 walkRouter
 .route('/')
@@ -45,7 +38,7 @@ walkRouter
         pickup_address_postal_code,
         walk_status
     } = req.body
-    //console.log(req.body)
+   
     const newWalk = {
         walker_id,
         user_id,
@@ -60,7 +53,7 @@ walkRouter
         pickup_address_postal_code,
         walk_status
     };
-    console.log(newWalk)
+    
 
     for (const [key, value] of Object.entries(newWalk))
       if (value == null)
@@ -78,7 +71,7 @@ walkRouter
             .status(201)
             .location(path.posix.join(req.originalUrl,`/${walk.walk_id}`))
             .json(WalkService.serializeWalk(walk))
-            console.log(walk)
+            
 
     })
     .catch(next)

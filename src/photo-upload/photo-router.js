@@ -27,14 +27,14 @@ photoRouter
   };
   s3.getSignedUrl('putObject', s3Params, (err, data) => {
     if(err){
-      console.log(err);
+      
       return res.end();
     }
     const returnData = {
       signedRequest: data,
       url: `https://${bucket_name}.s3.amazonaws.com/${fileName}`
     };
-    //res.write(JSON.stringify(returnData));
+    
     res.json({returnData})
     res.end();
   });
@@ -57,14 +57,14 @@ photoRouter
   };
   s3.getSignedUrl('getObject', s3Params, (err, data) => {
     if(err){
-      console.log(err);
+      
       return res.end();
     }
     const returnData = {
       signedRequest: data,
       url: `https://${bucket_name}.s3.amazonaws.com/${fileName}`
     };
-    //res.write(JSON.stringify(returnData));
+    
     res.json({returnData})
     res.end();
   });

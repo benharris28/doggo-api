@@ -22,7 +22,7 @@ authRouter
                 
             )
             .then(dbUser => {
-                console.log(loginUser.email)
+                
                 if (!dbUser)
                     return res.status(400).json({
                         error: 'Incorrect email or password',

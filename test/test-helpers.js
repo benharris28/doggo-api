@@ -185,9 +185,23 @@ function makeExpectedWalk(users, walk) {
       comment: null,
     }
     const expectedWalk = {
-      ...maliciousWalk,
+      walk_id: 911,
+      walker_id: 2,
+      user_id: 1,
       user_firsname: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
-      dog_name: `Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.`
+      dog_name: `Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.`,
+      walker_firstname: 'Jim',
+      request_time: null,
+      walk_date: new Date().toISOString(),
+      pickup_address_street_number: 3,
+      pickup_address_street_name: "test",
+      pickup_address_city: 'Toronto',
+      pickup_address_province: 'test',
+      pickup_address_postal_code: 'test',
+      walk_status: 'requested',
+      rating: null,
+      comment: null
+      
     }
     return {
       maliciousWalk,
@@ -228,42 +242,6 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
   return `Bearer ${token}`
 }
 
-  /*
-  function seedUsers(db, users) {
-    const preppedUsers = users.map(user => ({
-      ...user,
-      password: bcrypt.hashSync(user.password, 1)
-    }))
-    return db.into('users').insert(preppedUsers)
-      .then(() =>
-        // update the auto sequence to stay in sync
-        db.raw(
-          `SELECT setval('users_user_id_seq', ?)`,
-          [users[users.length - 1].id],
-        )
-      )
-  }
-
-  */
-
-  /*
-
-  function seedWalksTables(db, users, walks) {
-     use a transaction to group the queries and auto rollback on any failure
-    return db.transaction(async trx => {
-      await seedUsers(trx, users)
-      await trx.into('walks').insert(walks)
-       update the auto sequence to match the forced id values
-      await trx.raw(
-        `SELECT setval('walks_walk_id_seq', ?)`,
-        [walks[walks.length - 1].walk_id],
-      )
-      
-     
-    })
-  }
-
-  */
 
 
 

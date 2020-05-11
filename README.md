@@ -1,26 +1,44 @@
-# Express Boilerplate!
+# Doggo API
 
-This is a boilerplate project used for starting new projects!
+This is the API for The Doggo App. It handles requests for authentication, user account pages, walk booking, and walk pages. It is built with Node JS, Express, Postgres, and AWS S3.
 
-## Set up
+## Endpoints
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+The base URL for the Doggo App is 'https://doggo.ca/api' The following endpoints are handled by the Doggo API:
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+### Authentication
+'/login': This endpoint handles requests from existing users. Emails and passwords are sent in the request body of post calls to the API. The API returns an auth token and user object representing the logged in user
 
-## Scripts
+### User endpoints
 
-Start the application `npm start`
+'/user': Accepts posts to create new users in the database. 
 
-Start nodemon for the application `npm run dev`
+'user/:user_id': Accepts GET and PATCH requests. GET requests return the user object for the requested user. PATCH requests update user objects. Updatable fields from the client include profile_photo and bio
 
-Run the tests `npm test`
+### Walk Endpoints
 
-## Deploying
+Walk endpoints are used to return information about walks that are stored in the database
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+'/walk': accepts GET and POST requests. GET requests return all walks in the database. POST requests are used to write new walks to the database when a new walk is requested by a user in the component "BookWalkForm"
+
+'/walk/:walk_id': Accepts GET and PATCH requests. GET requests return the walk object for the requested walk id. PATCH requests are used to update walk statuses, walk comments, and walk ratings. 
+
+### Walker Endpoints
+
+The Walker Endpoint is used to populate the list of available walkers in the "browse walkers" screen.
+
+'/walker': Accepts GET requests that return a list of walkers in the database.
+
+### Photo Endpoints
+
+The photo endpoints are used to route pre-signed URLs to AWS S3. The endpoints are used to route profile_photo images from the client directly to the AWS bucket where they are stored
+
+'/upload': creates a properly formatted object for upload to AWS and generates a signed URL to send to AWS.
+
+'/get-image': generates a signed URL to facilitate the download of the correct profile photo
+
+
+
+
+
+
